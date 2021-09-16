@@ -1,0 +1,40 @@
+{
+    "tasks": [
+        {
+            "id": 0,
+            "name": "Wash plate",
+            "description": "Because you live",
+            "status": 0
+        },
+        {
+            "id": 1,
+            "name": "Eating",
+            "description": "Many things to choose",
+            "status": 1
+        },
+        {
+            "id": 2,
+            "name": "Cooking",
+            "description": "Want you be my own",
+            "status": 2
+        },
+        {
+            "id": 0,
+            "name": "Wash plate",
+            "description": "Traffic lights just turned on",
+            "status": 0
+        },
+        {
+            "id": 1,
+            "name": "Eating",
+            "description": "Oh Look, The windows are opening up",
+            "status": 1
+        },
+        {
+            "id": 2,
+            "name": "Cooking",
+            "description": "Who are you?",
+            "status": 2
+        }
+    ]
+}
