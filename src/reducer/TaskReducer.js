@@ -13,7 +13,21 @@ export const TaskReducer = (state = initialState, action) => {
             return [action.task].concat([...state])
         }
         case actionTypes.ADD_TASK_FAIL: {
-            var tasks = state.filter(item => item.name !== action.task.name);
+            let tasks = state.filter(item => item.name !== action.task.name);
+            return [...tasks];
+        }
+        case actionTypes.UPDATE_TASK_SUCCESS: {
+            state.forEach(item => {
+                if (item.id === action.task.id) {
+                    item.name = action.task.name;
+                    item.description = action.task.description;
+                    item.status = action.task.status;
+                }
+            });
+            return [...state];
+        }
+        case actionTypes.DELETE_TASK_SUCCESS: {
+            let tasks = state.filter(item => item.id !== action.id)
             return [...tasks];
         }
         default: return [...state];

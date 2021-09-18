@@ -23,19 +23,19 @@ class ComponentTaskForm extends Component {
     }
     onModalClose = () => {
         var { modalActions } = this.props;
+        modalActions.resetInitTaskForm();
         modalActions.toggleTaskForm(false);
-        this.props.reset();
 
     }
     render() {
-        var { classes, open, handleSubmit } = this.props;
+        var { classes, open, handleSubmit,initialValues } = this.props;
         return (
             <div>
                 <Dialog open={open} aria-labelledby="form-dialog-title" onClose={this.onModalClose}
                 >
 
                     <form onSubmit={handleSubmit(this.onSubmit)}  >
-                        <DialogTitle id="form-dialog-title">ADD NEW TASK</DialogTitle>
+                        <DialogTitle id="form-dialog-title">{Number(initialValues.id) > 0 ? 'UPDATE TASK' : 'ADD NEW TASK'}</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
                                 To submit task for supervisor, please input all field.
@@ -45,7 +45,7 @@ class ComponentTaskForm extends Component {
                                     <Field component={fields.renderTextField} label="Name" name="name" validate={[validation.required]} />
                                 </Grid>
                                 <Grid item md={9} xs={12} className={classes.formInput}>
-                                    <Field component={fields.renderTextField} label="Description" name="desc" validate={[validation.maxLength(100)]} />
+                                    <Field component={fields.renderTextField} label="Description" name="description" validate={[validation.maxLength(100)]} />
                                 </Grid>
                                 <Grid item md={9} xs={12} className={classes.formInput}>
                                     <FormControl >
@@ -98,15 +98,19 @@ let validate = (values) => {
     error.testArrayField = errorTestArrayField;
     return error;
 }
-let TaskForm = reduxForm({
+ComponentTaskForm = reduxForm({
     // a unique name for the form
     form: 'contact',
-    // validate
+    enableReinitialize : true,
+    validate
 })(ComponentTaskForm)
-const mapStateToProps = (state) => {
-    return { initialValues: state.taskForm.initData }
-}
 const mapDispatchToState = (dispatch) => {
     return { modalActions: bindActionCreators(formActions, dispatch) }
 }
-export default compose(withStyles(style), connect(mapStateToProps, mapDispatchToState))(TaskForm);
+ComponentTaskForm = connect(
+    state => ({
+        initialValues: state.taskForm.initData // pull initial values from account reducer
+    }),
+    mapDispatchToState, // bind account loading action creator
+)(ComponentTaskForm);
+export default withStyles(style)(ComponentTaskForm);

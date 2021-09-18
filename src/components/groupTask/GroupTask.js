@@ -5,43 +5,22 @@ import { connect } from 'react-redux';
 import { fetchAllTask, fetchAllTaskRequest } from '../../actions';
 import { Status } from '../../constants';
 import { style } from '../style';
-import TaskList from '../taskList/TaskList';
-// const taskList = [{
-//     id: 0,
-//     name: 'Wash plate',
-//     description : 'Because you live',
-//     status: 0
-// }, {
-//     id: 1,
-//     name: 'Eating',
-//     description : 'Many things to choose',
-//     status: 1
-// }, {
-//     id: 2,
-//     name: 'Cooking',
-//     description : 'Want you be my own',
-//     status: 2
-// },
-// {
-//     id: 0,
-//     name: 'Wash plate',
-//     description : 'Traffic lights just turned on',
-//     status: 0
-// }, {
-//     id: 1,
-//     name: 'Eating',
-//     description : 'Oh Look, The windows are opening up',
-//     status: 1
-// }, {
-//     id: 2,
-//     name: 'Cooking',
-//     description : 'Who are you?',
-//     status: 2
-// },]
+import TaskItem from '../taskItem/TaskItem';
+import { bindActionCreators } from 'redux';
+import * as taskActions from './../../actions/task'
 class GroupTask extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.props.fetchAllTask();
+    }
+    editTask = (task) => {
+        var { modalActions } = this.props;
+        modalActions.toggleTaskForm(true);
+        modalActions.editInitTaskForm(task);
+    }
+    deleteTask = (id) => {
+        var { onDeleteTask } = this.props;
+        onDeleteTask(id);
     }
     renderTaskBar = (statusList) => {
         var result = null;
@@ -53,11 +32,18 @@ class GroupTask extends Component {
 
                 <Grid key={index} item md={4} xs={12} >
                     <Typography variant="h6">{status.label}</Typography>
-                    <TaskList key={index} taskList={tasks} status={status} />
+                    {this.renderTaskList(tasks, status)}
                 </Grid>
             )
         })
         return result;
+    }
+    renderTaskList = (taskList, status) => {
+        return (<div>
+            {
+                taskList.map((task, index) => (<TaskItem key={index} task={task} status={status} editTask={this.editTask} onDeleteTask={this.deleteTask} />))
+            }
+        </div>)
     }
     render() {
         return (
@@ -72,7 +58,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchAllTask: () => {
             dispatch(fetchAllTaskRequest(dispatch))
-        }
+        },
+        modalActions: bindActionCreators(taskActions, dispatch)
     }
 }
 const mapStateToProps = (state) => {

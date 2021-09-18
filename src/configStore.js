@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { reducer } from './reducer';
 import createSagaMiddleware from 'redux-saga'
 import { take, fork, call, put, delay, takeLatest, select, takeEvery } from 'redux-saga/effects'
-import { fetchAllTask, filterSearchSuccess, hideLoading, showLoading, addTaskFail, fetchAllSuccess } from './actions';
+import { fetchAllTask, filterSearchSuccess, hideLoading, showLoading, addTaskFail, fetchAllSuccess, updateTaskSuccess, deleteTaskSuccess } from './actions';
 import { toggleTaskForm } from './actions/task';
 import * as service from './apiService/TaskAPI';
 import * as actionsType from './constants/index';
@@ -43,10 +43,37 @@ function* addTask({ task }) {
         yield put(addTaskFail(task));
     }
 }
+function* updateTask({ task }) {
+    yield delay(500);
+    try {
+        const res = yield call(service.updateTask, task);
+        var { data } = res;
+        yield showAlertMessage(`'${data.name}' updated successfully !!!`, MessageType.SUCCESS);
+        yield put(updateTaskSuccess(task));
+    }
+    catch (error) {
+        yield showAlertMessage(`'${task.name}' updated fail, please try again !!!`, MessageType.ERROR);
+    }
+}
+function* deleteTask({id}) {
+    debugger
+    yield delay(500);
+    try {
+        const res = yield call(service.deleteTask, id);
+        var { data } = res;
+        yield showAlertMessage(`'${data.name}' deleted successfully !!!`, MessageType.SUCCESS);
+        yield put(deleteTaskSuccess(data.id));
+    }
+    catch (error) {
+        yield showAlertMessage(`Deleted fail, please try again !!!`, MessageType.ERROR);
+    }
+}
 function* rootSaga() {
     yield fork(fetchTask);
     yield takeLatest(actionsType.FILTER_SEARCH, searchTask);
     yield takeEvery(actionsType.ADD_TASK, addTask);
+    yield takeEvery(actionsType.UPDATE_TASK, updateTask);
+    yield takeEvery(actionsType.DELETE_TASK, deleteTask);
 }
 
 const sagaMiddleWare = createSagaMiddleware();

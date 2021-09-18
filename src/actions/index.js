@@ -70,3 +70,41 @@ export const addTaskFail = (task) => {
     task
   }
 }
+export const updateTask = (task) => {
+  debugger
+  return {
+    type: actions.UPDATE_TASK,
+    task
+  }
+}
+export const updateTaskSuccess = (task) => {
+  return {
+    type: actions.UPDATE_TASK_SUCCESS,
+    task
+  }
+}
+export const updateTaskFail = (task) => {
+  return {
+    type: actions.UPDATE_TASK_FAIL,
+    task
+  }
+}
+export const deleteTask = (id) => {
+  debugger
+  return {
+    type: actions.DELETE_TASK,
+    id
+  }
+}
+export const deleteTaskSuccess = (id) => {
+  return {
+    type: actions.DELETE_TASK_SUCCESS,
+    id
+  }
+}
+export const deleteTaskFail = (task) => {
+  return {
+    type: actions.DELETE_TASK_FAIL,
+    task
+  }
+}

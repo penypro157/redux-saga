@@ -11,3 +11,12 @@ export const addTask = (task) => {
     var url = `${API_URL}/${taskURL}`;
     return ApiHanlder.post(url, task);
 }
+export const updateTask = (task) => {
+    var url = `${API_URL}/${taskURL}/${task.id}`;
+    return ApiHanlder.put(url, task);
+}
+export const deleteTask = (id) => {
+    var url = `${API_URL}/${taskURL}/${id}`;
+    debugger
+    return ApiHanlder.put(url);
+}
