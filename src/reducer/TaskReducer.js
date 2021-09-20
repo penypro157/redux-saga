@@ -16,6 +16,15 @@ export const TaskReducer = (state = initialState, action) => {
             let tasks = state.filter(item => item.name !== action.task.name);
             return [...tasks];
         }
+        case actionTypes.ADD_TASK_SUCCESS: {
+            debugger
+            state.forEach(item => {
+                if (item.name === action.task.name && item.id === undefined) {
+                    item.id = action.task.id;
+                }
+            });
+            return [...state];
+        }
         case actionTypes.UPDATE_TASK_SUCCESS: {
             state.forEach(item => {
                 if (item.id === action.task.id) {

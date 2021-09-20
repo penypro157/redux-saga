@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import * as taskActions from './../../actions/task'
 class GroupTask extends Component {
     constructor(props) {
+        console.log('render task');
         super(props);
         this.props.fetchAllTask();
     }

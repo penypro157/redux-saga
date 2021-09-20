@@ -8,18 +8,36 @@ import { API_URL } from './constants';
 import { style } from './components/style';
 import { render } from '@testing-library/react';
 import GlobalLoading from './components/common/GlobalLoading';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import routeList from './router';
+import AdminLayoutRoute from './components/common/AdminLayout/index';
 
 
 
 class App extends Component {
+  showRouteList = (routeList) => {
+    var result = null;
+    result = routeList.map((item, index) => {
+      return (
+        <AdminLayoutRoute key={index} path={item.path} exact={item.exact} component={item.component} name={item.name} />
+      )
+    })
+    console.log(result);
+    return result;
+  }
   render() {
     var { classes } = this.props;
     return (
-      <ThemeProvider theme={customTheme}>
-        <GlobalLoading />
-        <ToastContainer />
-        <TaskBar />
-      </ThemeProvider>
+      <BrowserRouter>
+        <ThemeProvider theme={customTheme}>
+          <GlobalLoading />
+          <ToastContainer />
+          {/* <TaskBar /> */}
+        </ThemeProvider>
+        <Switch>
+          {this.showRouteList(routeList)}
+        </Switch>
+      </BrowserRouter>
     );
   }
 }

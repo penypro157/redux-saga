@@ -10,6 +10,12 @@ export const Status = [{
     label: "COMPLETED",
     value: 2
 },]
+export const SideBarPosition = {
+    LEFT: "left",
+    RIGHT: "right",
+    BOTTOM: "bottom",
+    TOP: "top",
+}
 export const MessageType = {
     WARNING: "WARNING",
     SUCCESS: "SUCCESS",
@@ -54,3 +60,4 @@ export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS'
 export const DELETE_TASK_FAIL = 'DELETE_TASK_FAIL'
 export const EIDT_INIT_TASK_FORM = 'EIDT_INIT_TASK_FORM'
 export const RESET_TASK_FORM = 'RESET_TASK_FORM'
+export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR'

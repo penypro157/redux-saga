@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { reducer } from './reducer';
 import createSagaMiddleware from 'redux-saga'
 import { take, fork, call, put, delay, takeLatest, select, takeEvery } from 'redux-saga/effects'
-import { fetchAllTask, filterSearchSuccess, hideLoading, showLoading, addTaskFail, fetchAllSuccess, updateTaskSuccess, deleteTaskSuccess } from './actions';
+import { fetchAllTask, filterSearchSuccess, hideLoading, showLoading, addTaskFail, fetchAllSuccess, updateTaskSuccess, deleteTaskSuccess, addTaskSuccess } from './actions';
 import { toggleTaskForm } from './actions/task';
 import * as service from './apiService/TaskAPI';
 import * as actionsType from './constants/index';
@@ -36,6 +36,7 @@ function* addTask({ task }) {
     try {
         const res = yield call(service.addTask, task);
         var { data } = res;
+        yield put(addTaskSuccess(task));
         yield showAlertMessage(`'${data.name}' added successfully !!!`, MessageType.SUCCESS)
     }
     catch (error) {
